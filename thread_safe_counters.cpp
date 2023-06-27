@@ -24,13 +24,9 @@ mutex mu;
 
 void safe_increment_atomic() {
     //get the current pthread id
-    pid_t this_tid = syscall(SYS_gettid);
-    pthread_t thread;
-    thread = pthread_self();
 
     MigrateThread migrateThread;
-    migrateThread.manipulateThread(thread);
-    cout<<this_tid<<endl;
+    migrateThread.manipulateThread();
     // uses atomic counter to count
     while(1)
     {

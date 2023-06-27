@@ -14,8 +14,13 @@ private:
 public:
     void initializeCpuSet() {
         CPU_ZERO(&cpuset);
-        int test_core_id = 2;
-        CPU_SET(test_core_id, &cpuset);
+//         int test_core_id = 2;
+        for (int core_id = 16; core_id <= 31; core_id++) {
+            CPU_SET(core_id, &cpuset);
+        }
+        for (int core_id = 48; core_id <= 63; core_id++) {
+            CPU_SET(core_id, &cpuset);
+        }
     }
 
     void addToSharedSet(int value) {
@@ -28,12 +33,22 @@ public:
         globalCounter ^= 1;
     }
 
-    void manipulateThread(pthread_t this_tid) {
+    pthread_t getCurrentTid() {
+        pthread_t thread;
+        thread = pthread_self();
+    }
+
+    void manipulateThread() {
         if (!initialized) {
             initializeCpuSet();
             initialized = true;
         }
-        if (sharedSet.count(this_tid)) return;
+
+        pthread_t this_tid = getCurrentTid();
+        if (sharedSet.count(this_tid)) {
+            return;
+        }
+
         addToSharedSet(this_tid);
         xorGlobalCounter();
 
