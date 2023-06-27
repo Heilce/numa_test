@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.10)
+project(cpp_multithreading)
+
+set(CMAKE_CXX_STANDARD 14)
+SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -pthread")
+
+add_executable(sync_devices sync_devices_yield.cpp)
+add_executable(sync_devices2 sync_devices_condition_variable.cpp)
+add_executable(returnvalue return_from_function.cpp)
+add_executable(counter thread_safe_counters.cpp thread_migration.h)
+add_executable(deadlock deadlock.cpp)
+add_executable(locking locking.cpp)
+add_executable(timeout timeouts.cpp)
+add_executable(threads threads.cpp)
+add_executable(data_race data_race.cpp)
